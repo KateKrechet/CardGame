@@ -23,9 +23,9 @@ namespace CardGame
         void GenerateDeck()
         {
             int count = 1;//переменная для счета карт
-            for (int i = 0; i < 13; i++)
+            for (int j = 0; j < 4; j++)
             {
-                for (int j = 0; j < 4; j++)
+                for (int i = 0; i < 13; i++)
                 {
                     string path = "d:\\cards\\image_part_0";
                     if (count < 10)

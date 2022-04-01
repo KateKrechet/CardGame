@@ -12,31 +12,63 @@ namespace CardGame
 {
     public partial class Form1 : Form
     {
-        Deck deck;
-        Card card;
+        BlackJack blackJack;
+        List<PictureBox> myCards;
         public Form1()
         {
             InitializeComponent();
-            deck = new Deck();
-            deck.Shuffle();
-        }
-        void ShowCard()
-        {
-            if(card!=null)
+            blackJack = new BlackJack();
+            myCards = new List<PictureBox>()
             {
-                pictureBox1.Image = !card.IsShirt ? card.Back : card.Front;
+                pictureBox1,
+                pictureBox2,
+                pictureBox3,
+                pictureBox4,
+                pictureBox5,
+                pictureBox6,
+                pictureBox7,
+            };
+        }
+        void ShowTable()
+        {
+            for (int i = 0; i < blackJack.Table.Count; i++)
+            {
+                if (i < myCards.Count)
+                    myCards[i].Image = blackJack.Table[i].Front;
             }
         }
         private void button1_Click(object sender, EventArgs e)
         {
-            card = deck.GetCard();
-            ShowCard();
+            blackJack.GetCard();
+            ShowTable();
+            label1.Text = "Счет: " + blackJack.Score.ToString();
+            if(blackJack.Score==21)
+            {
+                MessageBox.Show("Вы выиграли");
+                button3.PerformClick();
+                 
+            }else if (blackJack.Score > 21)
+            {
+                MessageBox.Show("Вы проиграли");
+                button3.PerformClick();
+            }
+
         }
 
-        private void pictureBox1_Click(object sender, EventArgs e)
+        private void button3_Click(object sender, EventArgs e)
         {
-            card?.Reverse();//if(card!=null)
-            ShowCard();
+            blackJack = new BlackJack();
+            for (int i = 0; i < myCards.Count; i++)
+            {
+                myCards[i].Image = null;
+            }
+            label1.Text = "Счет: ";
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show($"Вы закончили игру с {blackJack.Score} очков");
+            button3.PerformClick();
         }
     }
 }
